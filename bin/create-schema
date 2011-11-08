@@ -1,0 +1,2 @@
+#!/bin/sh
+perl bin/create-schema-classes.pl

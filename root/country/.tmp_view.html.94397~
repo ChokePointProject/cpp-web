@@ -1,0 +1,88 @@
+<%args>
+$country => undef,
+</%args>
+<&| comp/page.html, title=>'Country list', map=>1 &>
+<%perl>
+</%perl>
+<div class="grid_5">
+<div id="map" style="height:480px"></div>
+</div>
+<div id="detail" class="grid_7">
+<div id="content">
+
+<h1>The state of the Internet in <br/><span class="country"><% $country->name %></span></h1>
+
+<div class="linkbar">
+    <ul class="linkbar">
+        <li>
+            share:
+            <ul>
+                <li>
+                    <a href="#">embed</a>
+                </li>
+                <li>
+                    <a href="#">[f]</a>
+                </li>
+                <li>
+                    <a href="#">[t]</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            follow:
+            <ul>
+                <li>
+                    <a href="#">[f]</a>
+                </li>
+                <li>
+                    <a href="#">[t]</a>
+                </li>
+                <li>
+                    <a href="#">[rss]</a>
+                </li>
+            </ul>
+        </li>
+		<li>download:
+		<ul>
+			<li><a href="#">data</a></li>
+			<li><a href="#">api</a></li>
+		</ul>
+		</li>
+    </ul>
+</div>
+
+<h2>Current incidents</h2>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<h2>Current legislation</h2>
+<ul class="linkbar">
+	<li><a href="#">Edit</a></li>
+	<li><a href="#">History</a></li>
+</ul>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<h2>Lobbying activity</h2>
+<ul class="linkbar">
+	<li><a href="#">Edit</a></li>
+	<li><a href="#">History</a></li>
+</ul>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</div>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">
+var map;
+var pad = 1;
+$(document).ready(function(){
+    map = new OpenLayers.Map('map');
+//    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    var gmap = new OpenLayers.Layer.OSM(
+        "Simple OSM");
+    map.addLayers([gmap]);
+	map.layers[0].animationEnabled = true;
+	var prj =  new OpenLayers.Projection("EPSG:4326");
+	var bounds = new OpenLayers.Bounds();
+	bounds.extend(new OpenLayers.LonLat(<% $country->bb_nw_lon %>,<% $country->bb_nw_lat %>).transform(prj,map.getProjectionObject()));
+	bounds.extend(new OpenLayers.LonLat(<% $country->bb_se_lon %>,<% $country->bb_se_lat %>).transform(prj,map.getProjectionObject()));
+    map.zoomToExtent(bounds,false);
+});
+</script>
+</&>

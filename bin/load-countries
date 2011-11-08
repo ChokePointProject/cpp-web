@@ -1,0 +1,64 @@
+#!/usr/bin/env perl
+use strict;
+use encoding 'utf8';
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use warnings;
+use Carp;
+use Data::Dumper;
+use Config::Any;
+use XML::Simple;
+use CPP::Object;
+
+my($db,$seen);
+my $config_dir = $FindBin::Bin.'/..';
+my @config = glob('*.conf');
+my $cfg = Config::Any->load_files({files => \@config, use_ext=>1});
+for(@{$cfg}) {
+	my($filename,$config)=%$_;
+	if(my $section = $config->{'Model::DB'}) {
+		$db = CPP::Object->connect($section->{connect_info});
+	}
+}
+die("Can't connect to database") unless $db;
+
+my $xs = XML::Simple->new();
+my $xml = $xs->XMLin("$FindBin::Bin/../tmp/countryInfo.xml");
+#print Dumper($xml);
+foreach my $country (@{$xml->{country}}) {
+	print join(":",$country->{countryCode},$country->{countryName})."\n";
+	my $id = $country->{countryCode};
+	my $found = $db->resultset('Country')->find($id);
+	my $obj = $found ? $found : $db->resultset('Country')->create({
+		id => $id,
+	});
+	$obj->name($country->{countryName});
+	$obj->bb_nw_lat($country->{bBoxNorth});
+	$obj->bb_se_lat($country->{bBoxSouth});
+	$obj->bb_nw_lon($country->{bBoxWest});
+	$obj->bb_se_lon($country->{bBoxEast});
+	$obj->update();
+	check_region($country);
+	if(!$found) {
+		$obj->add_to_region_countries({
+			region => $country->{continent},
+		});
+	}
+}
+
+sub check_region {
+	my $country = shift;
+	my $id = $country->{continent};
+	next if $seen->{continent}->{$id};
+	my $obj = $db->resultset('Region')->find($id);
+	if(!$obj) {
+		$obj = $db->resultset('Region')->create({
+			id => $id,
+			type => 'continent',
+			name => $country->{continentName},
+		});
+		$obj->update();
+		++$seen->{continent}->{$id};
+	}
+
+}

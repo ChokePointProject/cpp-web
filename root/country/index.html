@@ -1,0 +1,45 @@
+<&| comp/page.html, title=>'Country list' &>
+<%perl>
+my($COUNTRY,$LETTER);
+foreach my $country ($c->model('DB::Country')->all) {
+	my($id,$name)=($country->id,$country->name);
+	$COUNTRY->{$id} = $name;
+	push @{$LETTER->{lc(substr($name,0,1))}}, $id;
+}
+</%perl>
+<div id="content">
+<div class="grid_12">
+
+<div id="rightnav">
+</div>
+<h1 id="top">Country list
+    <ul class="inline linkbar">
+        <li>
+        Content:
+        <ul class="links">
+			<li id="current">A-Z</li>
+			<li><a href="/region/">Continents</a></li>
+        </ul>
+    </ul>
+</h1>
+<!--
+% foreach my $letter ('a'..'z') {
+<a href="#<% $letter %>"><% $letter %></a>
+% }
+-->
+</div>
+<div class="clear"></div>
+% foreach my $letter ('a'..'z') {
+<div class="grid_1">
+<h2 class="initial" id="<% $letter %>"><% $letter %></h2>
+</div>
+<div class="country-list grid_11">
+% foreach my $code (sort {$COUNTRY->{$a} cmp $COUNTRY->{$b}} @{$LETTER->{$letter}||[]}) {
+<a href="<% $code |u%>"><% $COUNTRY->{$code} %></a><br/>
+% }
+</div>
+<div class="clear"></div>
+<hr/>
+% }
+</div>
+</&>
