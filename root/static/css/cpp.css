@@ -230,6 +230,24 @@ h1 span.country {
     top: 180px !important;
 }
 
+.olControlZoomPanel div {
+	background-image: url('../img/zoom-new.png') !important;
+}
+
+div.olControlZoomPanel {
+	top: 160px !important;
+}
+
+div.olControlZoomToMaxExtentItemInactive {
+	display: none;
+}
+
+div.olControlZoomOutItemInactive {
+	top: 18px !important;
+}
+
+
+
 ul.linkbar {
 	font-family: "Helvetica Neue","Helvetica","Arial",sans-serif;
 	font-size: 12px;
@@ -313,4 +331,3 @@ h2:hover ul.inline {
 }
 
 */
-

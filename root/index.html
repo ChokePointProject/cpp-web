@@ -10,38 +10,12 @@ var map;
 
 
 $(document).ready(function(){
-	function zoomPad(options) {
-
-	    this.control = new OpenLayers.Control.ZoomPanel(options);
-
-	    OpenLayers.Util.extend(this.control,{
-	        draw: function(px) {
-	            // initialize our internal div
-	            OpenLayers.Control.prototype.draw.apply(this, arguments);
-	            px = this.position.clone();
-
-	            // place the controls
-	            this.buttons = [];
-
-	            var sz = new OpenLayers.Size(18,18);
-	            var centered = new OpenLayers.Pixel(px.x+sz.w/2, px.y);
-
-	            this._addButton("zoomin", "zoom-plus-mini.png", centered.add(0, 5), sz);
-	            this._addButton("zoomout", "zoom-minus-mini.png", centered, sz);
-	            return this.div;
-	        }
-	    });
-	    return this.control;
-	}
-	
 	map = new OpenLayers.Map('map',{
-/*         controls: [
+         controls: [
                    new OpenLayers.Control.Navigation(),
-                   new zoomPad({}),
+                   new OpenLayers.Control.ZoomPanel(),
                    new OpenLayers.Control.KeyboardDefaults()
-               ],
-               numZoomLevels: 6
-                */
+               ]
     });
 	var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
 	    key: '<% $c->config->{'CloudMade'}->{'api_key'} %>',

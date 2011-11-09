@@ -7,7 +7,7 @@
 	my $static = $c->uri_for('/static');
 	my @nav = (
 		{ href => '/', name=>'Home', },
-		{ href => '/country/', name=>'Countries', },
+		{ href => '/region/', name=>'Countries', },
 		{ href => '/incident/', name=>'Incidents', },
 	);
 </%perl>
@@ -48,6 +48,7 @@
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="<% $static %>/js/libs/jquery-1.6.4.min.js"><\/script>')</script>
   <script src="<% $static %>/js/jquery.jeditable.mini.js"></script>
+  <script src="<% $static %>/js/jquery.sparkline.min.js"></script>
 % if($map) {
 	<script src="<% $static %>/lib/OpenLayers-2.11/OpenLayers.js"></script>
 	<script src="<% $static %>/js/cloudmade.js"></script>
@@ -60,10 +61,10 @@
 <div id="caption">
 	<div id="topnav">
 		<ul>
-			<li><a href="#">about</a></li>
-			<li><a href="#">workshop</a></li>
-			<li><a href="#">team</a></li>
-			<li><a href="#">blog</a></li>
+			<li><a href="http://chokepointproject.net/the-project/">about</a></li>
+			<li><a href="http://chokepointproject.net/workshops/">workshops</a></li>
+			<li><a href="http://chokepointproject.net/team/">team</a></li>
+			<li><a href="http://chokepointproject.net/">blog</a></li>
 		</ul>
 	</div>
 	We collect and show the state of the Internet from across the world
@@ -87,7 +88,6 @@
   <footer>
 	<div id="bottomnav">
 		<ul>
-			<li><a href="#">About</a></li>
 			<li><a href="#">Contribute</a></li>
 			<li><a href="#">Terms &amp; Conditions</a></li>
 			<li><a href="#">Privacy Policy</a></li>
