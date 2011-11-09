@@ -1,4 +1,4 @@
-<&| /comp/page.html, title=>'Home' &>
+<&| /comp/page.html, title=>'Home', body=>'home' &>
 
 <div id="map" style="height:480px; "></div> 
 
@@ -6,7 +6,7 @@
 
 	SHOW: <strong><a href="">TODAY</a></strong> : <a href="">LAST WEEK</a> <strong>| </strong>
 		<span id="playbutt">
-			<img src="<% $c->uri_for('/static') %>/img/playButton.png"/>
+			<img id="btPlay" src="<% $c->uri_for('/static') %>/img/playButton.png"/>
 		</span> 
 	REPLAY LAST WEEK
 
@@ -21,7 +21,7 @@
 
 <script type="text/javascript">
 var map;
-
+var markers;
 
 
 $(document).ready(function(){
@@ -38,8 +38,49 @@ $(document).ready(function(){
 	});
 	map.addLayer(cloudmade);
     map.layers[0].animationEnabled = true;
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
 	var prj =  new OpenLayers.Projection("EPSG:4326");
     map.setCenter(new OpenLayers.LonLat(0,15).transform(prj,map.getProjectionObject()), 1.5);
+    var size = new OpenLayers.Size(8,8);
+    var offset = new OpenLayers.Pixel(4,4);
+    var icon = new OpenLayers.Icon('<% $c->uri_for('/static') %>/img/red_Square_8px.gif',size,offset);
+    //var markerArray = new Array();
+    $.ajax('incidents',{
+    	dataType: 'json',
+    	success: function(data,status,xhr) {
+    		for(var i=0; i<data.length; ++i) {
+    			var marker;
+    			var incident = data[i];
+    			marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon,incident.lat).transform(prj,map.getProjectionObject()),icon.clone());
+    			marker.incident = data[i];
+                marker.events.register('mousedown', marker, function(evt) { document.location='/country/'+this.incident.country; OpenLayers.Event.stop(evt); });
+                //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });
+                //markerArray[i] = marker;
+                markers.addMarker(marker); 
+                map.addControl(new OpenLayers.Control.LayerSwitcher());
+    		}
+    	}
+    });
+    $('#btPlay').click(function(){
+    	markers.display(false);
+        $.ajax('incidents',{
+        	dataType: 'json',
+        	success: function(data,status,xhr) {
+        		for(var i=0; i<data.length; ++i) {
+        			var marker;
+        			var incident = data[i];
+        			marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon,incident.lat).transform(prj,map.getProjectionObject()),icon.clone());
+        			maerker.incident = incident;
+                    marker.events.register('mousedown', marker, function(evt) { console.log(this.incident);document.location='/country/'+incident.country; OpenLayers.Event.stop(evt); });
+                    //markerArray[i] = marker;
+                    markers.addMarker(marker); 
+                    map.addControl(new OpenLayers.Control.LayerSwitcher());
+        		}
+        	}
+        });
+    	
+    });
 });
 </script>
 

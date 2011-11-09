@@ -57,10 +57,10 @@ $country => undef,
 <hr class="thick"/>
 
 <h2>Current incidents</h2>
-% my $incidents = $country->incidents->search({});
+% my $incidents = $country->incidents->search({},{order_by=>'ts desc'});
 % if($incidents->count > 0) {
 %   foreach my $incident ($incidents->all) {
-<li><% $incident->descr |h %></li>
+<li><img src="<% $c->uri_for('/static') %>/img/Icon_Attack_30px.png"/><% $incident->ts->strftime('%Y-%m-%d') %><b><% $incident->descr |h %></b></li>
 %   }
 % } else {
 <div class="info">No incidents reported for <% $country->name |h %></div>
@@ -119,7 +119,13 @@ $country => undef,
     var map;
     var pad = 1;
     $(document).ready(function(){
-        map = new OpenLayers.Map('map');
+    	map = new OpenLayers.Map('map',{
+            controls: [
+                      new OpenLayers.Control.Navigation(),
+                      new OpenLayers.Control.ZoomPanel(),
+                      new OpenLayers.Control.KeyboardDefaults()
+                  ]
+       });
     	var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
     	    key: '<% $c->config->{'CloudMade'}->{'api_key'} %>',
     	    styleId: 48233

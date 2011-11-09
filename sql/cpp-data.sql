@@ -9,3 +9,5 @@ insert into incident_type values ('10','Bandwidth Throttling','restriction');
 insert into incident_type values ('11','Radio Frequency jamming','restriction');
 insert into incident_type values ('12','Radio Frequency jamming','restriction');
 insert into incident_type values ('13','Radio Frequency jamming','restriction');
+
+insert into incident_type values ('15','Connectivity Issue','blackout');

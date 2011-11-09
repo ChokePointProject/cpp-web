@@ -32,6 +32,12 @@ __PACKAGE__->table("incident_type");
   is_nullable: 0
   size: 255
 
+=head2 class
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -39,6 +45,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 16 },
   "name",
   { data_type => "varchar", is_nullable => 0, size => 255 },
+  "class",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
 );
 __PACKAGE__->set_primary_key("id");
 
@@ -60,8 +68,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-10-15 22:58:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2i02wTMw6LpXi5KGW8HR2w
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-11-09 12:17:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CGeGC0qZG4MvxapYSeVG/g
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

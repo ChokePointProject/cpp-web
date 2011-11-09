@@ -43,6 +43,13 @@ __PACKAGE__->table("incident");
   set_on_create: 1
   set_on_update: 1
 
+=head2 ts
+
+  data_type: 'datetime'
+  datetime_undef_if_invalid: 1
+  is_nullable: 1
+  locale: 'es_MX'
+
 =head2 type
 
   data_type: 'varchar'
@@ -104,6 +111,13 @@ __PACKAGE__->add_columns(
     locale => "es_MX",
     set_on_create => 1,
     set_on_update => 1,
+  },
+  "ts",
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+    locale => "es_MX",
   },
   "type",
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 1, size => 16 },
@@ -175,8 +189,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-10-15 22:58:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:gp7YcORO8Lb63HKfbC/BsA
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-11-09 12:17:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rCBs0DFarClwvkzX5RcT0g
 
   __PACKAGE__->many_to_many('countries' => 'country_incidents', 'country');
   __PACKAGE__->many_to_many('regions' => 'region_incidents', 'region');

@@ -76,6 +76,7 @@ create table incident (
     id integer auto_increment not null,
     date_created datetime,
     last_updated datetime,
+    ts datetime,
     type varchar(16),
     source varchar(16),
     source_id varchar(64),

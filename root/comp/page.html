@@ -1,7 +1,8 @@
 <%args>
 	$title => ''
-	$nav_active => '/',
+	$nav_active => '/'
 	$map => 1
+	$body => ''
 </%args>
 <%perl>
 	my $static = $c->uri_for('/static');
@@ -55,7 +56,7 @@
 % }
 </head>
 
-<body>
+<body<% $body?qq{ class="$body"}:'' %>>
 <div id="wrapper" class="container_12">
   <header>
   

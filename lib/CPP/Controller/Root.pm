@@ -1,6 +1,7 @@
 package CPP::Controller::Root;
 use Moose;
 use namespace::autoclean;
+use JSON;
 
 BEGIN { extends 'Catalyst::Controller' }
 
@@ -60,6 +61,26 @@ This library is free software. You can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
+
+our $json = JSON->new();
+
+sub incidents :Path {
+	my($self,$c) = @_;
+	my($ret);
+	foreach my $rec ($c->model('DB::Incident')->search({},{order_by=>'ts desc',rows=>50})->all) {
+		my($data);
+		map {$data->{$_} = $rec->$_} qw(lat lon);
+		$data->{ts} = $rec->ts->strftime('%Y-%m-%d');
+		$data->{type} = $rec->type->id;
+		$data->{name} = $rec->type->name;
+		if(my @countries = $rec->countries()) {
+			$data->{country} = $countries[0]->id;
+		}
+		
+		push @{$ret}, $data;
+	}
+	$c->response->body($json->encode($ret));
+}
 
 __PACKAGE__->meta->make_immutable;
 

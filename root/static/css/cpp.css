@@ -3,7 +3,10 @@
 }
 
 body {
-    background-color: #B1CED6;
+    background-color: #FFFFFF;
+}
+
+body.home {
     background: #B1CED6 url("../img/bg.gif") top left repeat-x; 
     
 }
