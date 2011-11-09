@@ -117,5 +117,6 @@ __PACKAGE__->has_many(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:wozagY2AxIulZR8kA9iY5w
 
   __PACKAGE__->many_to_many('incidents' => 'region_incidents', 'incident');
+  __PACKAGE__->many_to_many('countries' => 'region_countries', 'country');
 
 1;

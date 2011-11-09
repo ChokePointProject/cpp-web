@@ -27,8 +27,8 @@ foreach my $country ($c->model('DB::Country')->all) {
 <h2 class="initial" id="<% $region->id |u%>"><% $region->name %></h2>
 </div>
 <div class="country-list grid_9">
-% foreach my $rc ($region->region_countries) {
-%   my $country = $rc->country;
+% foreach my $country ($region->countries->search({},{order_by=>'name'})) {
+%#   my $country = $rc->country;
 <a href="/country/<% $country->id |u%>"><% $country->name %></a><br/>
 % }
 </div>
