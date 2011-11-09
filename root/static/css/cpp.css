@@ -48,28 +48,58 @@ position: absolute;
 top: 450px;
 width: 400px;
 margin-left: 10px;
-z-index: 9000;
-	
+z-index: 9000;	
 }
 
 #playbutt img {
 margin-bottom:4px;	
 }
 
+.playcontroltext {
+font-size: 0.85em;
+
+}
+
+.incidents{
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: -1em;
+	
+}
+
+hr {
+	margin-left: -15px;
+}
+
+div.incidents ul li {
+	
+	
+	}
+
+.line {
+border-top: #000 solid 2px;	
+width:825px;
+
+}
+
 footer {
 	font-size: 10px;
 	font-weight: bold;
 	border-top: #000 solid 5px;
-	margin-top: 40px;
+	margin-top: 25px;
 	padding-top: 18px;
-	margin-left: 100px;
+	margin-bottom: 10px;
+	//margin-left: 100px;
 }
 
 
 #bottomnav {
 	font-weight: normal;
     float: right;
+    
     margin-right: 60px;
+    margin-bottom: 40px;
 }
 
 #bottomnav ul {
