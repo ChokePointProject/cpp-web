@@ -1,0 +1,105 @@
+#!/usr/bin/env perl
+use strict;
+use encoding 'utf8';
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+use warnings;
+use Carp;
+use Data::Dumper;
+use Config::Any;
+use XML::Simple;
+use CPP::Object;
+use WWW::Mechanize;
+use JSON::XS;
+use DateTime::Format::Strptime;
+
+my($db,$seen,$URL);
+my $config_dir = $FindBin::Bin.'/..';
+my @config = glob('*.conf');
+my $cfg = Config::Any->load_files({files => \@config, use_ext=>1});
+for(@{$cfg}) {
+	my($filename,$config)=%$_;
+	if(my $section = $config->{'Model::DB'}) {
+		$db = CPP::Object->connect($section->{connect_info});
+	}
+	if(my $url = $config->{DataSource}->{MLabs}) {
+		$URL = $url;
+	}
+}
+die("Can't connect to database") unless $db;
+
+my $xs = XML::Simple->new();
+my $json = JSON::XS->new();
+my $strp = new DateTime::Format::Strptime(
+                                pattern     => '%Y-%m-%d',
+                                locale      => 'en_US',
+                                time_zone   => 'GMT',
+                        );
+my $mech = WWW::Mechanize->new();
+$mech->get($URL.'/country_maps.json');
+my $js = $mech->content();
+print $js;
+my $list = $json->decode($js);
+foreach my $country_rec (@{$list}) {
+	my $id = $country_rec->{country_code};
+	my $country = $db->resultset('Country')->find($id);
+	$mech->get($URL.'country_measurements.json?country_code='.$id);
+	my $data = $json->decode($mech->content());
+	print Dumper($data);
+	foreach my $rec (@{$data}) {
+		if($rec->{suspicious}) {
+			my $ts = $strp->parse_datetime($rec->{month});
+			my $incident = $db->resultset('Incident')->create({
+				'type' => '15',
+				'ts' => $ts,
+				'descr' => 'Suspicious connectivity drop',
+				'lat' => $country_rec->{latitude},
+				'lon' => $country_rec->{longitude},
+			});
+			$country->add_to_country_incidents({
+				incident => $incident,
+			});
+		}
+	}
+}
+exit(0);
+
+my $xml = $xs->XMLin("$FindBin::Bin/../tmp/countryInfo.xml");
+#print Dumper($xml);
+foreach my $country (@{$xml->{country}}) {
+	print join(":",$country->{countryCode},$country->{countryName})."\n";
+	my $id = $country->{countryCode};
+	my $found = $db->resultset('Country')->find($id);
+	my $obj = $found ? $found : $db->resultset('Country')->create({
+		id => $id,
+	});
+	$obj->name($country->{countryName});
+	$obj->bb_nw_lat($country->{bBoxNorth});
+	$obj->bb_se_lat($country->{bBoxSouth});
+	$obj->bb_nw_lon($country->{bBoxWest});
+	$obj->bb_se_lon($country->{bBoxEast});
+	$obj->update();
+	check_region($country);
+	if(!$found) {
+		$obj->add_to_region_countries({
+			region => $country->{continent},
+		});
+	}
+}
+
+sub check_region {
+	my $country = shift;
+	my $id = $country->{continent};
+	next if $seen->{continent}->{$id};
+	my $obj = $db->resultset('Region')->find($id);
+	if(!$obj) {
+		$obj = $db->resultset('Region')->create({
+			id => $id,
+			type => 'continent',
+			name => $country->{continentName},
+		});
+		$obj->update();
+		++$seen->{continent}->{$id};
+	}
+
+}
