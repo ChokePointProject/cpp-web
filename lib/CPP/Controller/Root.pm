@@ -70,7 +70,7 @@ sub incidents :Path {
 	foreach my $rec ($c->model('DB::Incident')->search({},{order_by=>'ts desc',rows=>50})->all) {
 		my($data);
 		map {$data->{$_} = $rec->$_} qw(lat lon);
-		$data->{ts} = $rec->ts->strftime('%Y-%m-%d');
+		$data->{ts} = $rec->ts ? $rec->ts->strftime('%Y-%m-%d') : '';
 		$data->{type} = $rec->type->id;
 		$data->{name} = $rec->type->name;
 		if(my @countries = $rec->countries()) {
