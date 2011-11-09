@@ -1,1 +1,3 @@
-Run script/cpp_server.pl to test the application.
+Copy cpp_local.conf.sample to cpp_local.conf and modify to match your environment.
+Also, please specifying your own CloudMade API key. Get yours at http://CloudMade.com/
+Afterwards, run script/cpp_server.pl to test the application.

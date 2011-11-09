@@ -8,3 +8,6 @@ name CPP
 		mysql_enable_utf8 1
 	</connect_info>
 </Model::DB>
+<CloudMade>
+	api_key 1ee74cb072fddd9bccca4b89edd84f2c
+</CloudMade>
