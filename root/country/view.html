@@ -57,14 +57,27 @@ $country => undef,
 <hr class="thick"/>
 
 <h2>Current incidents</h2>
-% my $incidents = $country->incidents->search({},{order_by=>'ts desc'});
+<img src="<% $c->uri_for('/static') %>/img/mockdata.png"/>
+<hr/>
+
+<h2>Connectivity Status</h2>
+Based on MLabs data
+% my $incidents = $country->incidents->search({type=>15},{order_by=>'ts desc'});
 % if($incidents->count > 0) {
 %   foreach my $incident ($incidents->all) {
-<li><img src="<% $c->uri_for('/static') %>/img/Icon_Attack_30px.png"/><% $incident->ts ? $incident->ts->strftime('%Y-%m-%d') : '' %><b><% $incident->descr |h %></b></li>
+<li><img src="<% $c->uri_for('/static') %>/img/Icon_Attack_30px.png"/>
+<b><% $incident->ts ? $incident->ts->strftime('%Y-%m-%d') : '' %></b>
+<% $incident->descr |h %>
+</li>
 %   }
 % } else {
 <div class="info">No incidents reported for <% $country->name |h %></div>
 % }
+
+<hr/>
+
+<h2>Currently Functioning Circumvention</h2>
+<strong>TOR VPN DNS PROXY</strong>
 
 <hr/>
 

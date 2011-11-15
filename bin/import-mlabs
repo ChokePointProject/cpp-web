@@ -36,25 +36,53 @@ my $strp = new DateTime::Format::Strptime(
                                 time_zone   => 'GMT',
                         );
 my $mech = WWW::Mechanize->new();
-$mech->get($URL.'/country_maps.json');
+if(0) {
+	$mech->get($URL.'/country_maps.json');
+	my $js = $mech->content();
+	print $js;
+	my $list = $json->decode($js);
+	foreach my $country_rec (@{$list}) {
+		my $id = $country_rec->{country_code};
+		my $country = $db->resultset('Country')->find($id);
+		$mech->get($URL.'country_measurements.json?country_code='.$id);
+		my $data = $json->decode($mech->content());
+		print Dumper($data);
+		foreach my $rec (@{$data}) {
+			if($rec->{suspicious}) {
+				my $ts = $strp->parse_datetime($rec->{month});
+				my $incident = $db->resultset('Incident')->create({
+					'type' => '15',
+					'ts' => $ts,
+					'descr' => 'Suspicious connectivity drop',
+					'lat' => $country_rec->{latitude},
+					'lon' => $country_rec->{longitude},
+				});
+				$country->add_to_country_incidents({
+					incident => $incident,
+				});
+			}
+		}
+	}
+}
+
+$mech->get($URL.'/city_maps.json');
 my $js = $mech->content();
 print $js;
 my $list = $json->decode($js);
-foreach my $country_rec (@{$list}) {
-	my $id = $country_rec->{country_code};
+foreach my $city_rec (@{$list}) {
+	my $id = $city_rec->{country_code};
 	my $country = $db->resultset('Country')->find($id);
-	$mech->get($URL.'country_measurements.json?country_code='.$id);
+	$mech->get($URL.'city_measurements.json?city='.$city_rec->{city});
 	my $data = $json->decode($mech->content());
-	print Dumper($data);
 	foreach my $rec (@{$data}) {
 		if($rec->{suspicious}) {
 			my $ts = $strp->parse_datetime($rec->{month});
 			my $incident = $db->resultset('Incident')->create({
-				'type' => '15',
+				'type' => '16',
 				'ts' => $ts,
 				'descr' => 'Suspicious connectivity drop',
-				'lat' => $country_rec->{latitude},
-				'lon' => $country_rec->{longitude},
+				'lat' => $city_rec->{latitude},
+				'lon' => $city_rec->{longitude},
 			});
 			$country->add_to_country_incidents({
 				incident => $incident,

@@ -64,10 +64,10 @@ it under the same terms as Perl itself.
 
 our $json = JSON->new();
 
-sub incidents :Path {
+sub incidents :Local {
 	my($self,$c) = @_;
 	my($ret);
-	foreach my $rec ($c->model('DB::Incident')->search({},{order_by=>'ts desc',rows=>50})->all) {
+	foreach my $rec ($c->model('DB::Incident')->search({type=>15},{order_by=>'ts desc',rows=>50})->all) {
 		my($data);
 		map {$data->{$_} = $rec->$_} qw(lat lon);
 		$data->{ts} = $rec->ts ? $rec->ts->strftime('%Y-%m-%d') : '';
@@ -81,6 +81,32 @@ sub incidents :Path {
 	}
 	$c->response->body($json->encode($ret));
 }
+
+
+sub incident_timeline :Local {
+	my($self,$c) = @_;
+	my($ret);
+	foreach my $rec ($c->model('DB::Incident')->search({type=>15},{order_by=>'ts'})->all) {
+		my($data);
+		map {$data->{$_} = $rec->$_} qw(lat lon);
+		my $ts = $rec->ts ? $rec->ts->strftime('%Y-%m-%d') : '';
+		$data->{ts} = $ts;
+		$data->{type} = $rec->type->id;
+		$data->{name} = $rec->type->name;
+		if(my @countries = $rec->countries()) {
+			$data->{country} = $countries[0]->id;
+		}
+		if($ts) {
+			push @{$ret->{$ts}}, $data;
+		}
+	}
+	my $data;
+	foreach my $ts (sort keys %{$ret}) {
+		push @{$data}, {ts=>$ts,data=>$ret->{$ts}};
+	}
+	$c->response->body($json->encode($data));
+}
+
 
 __PACKAGE__->meta->make_immutable;
 
