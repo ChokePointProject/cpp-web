@@ -107,6 +107,9 @@ sub incident_timeline :Local {
 	$c->response->body($json->encode($data));
 }
 
+sub about :Local {
+	
+}
 
 __PACKAGE__->meta->make_immutable;
 
