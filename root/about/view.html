@@ -1,0 +1,136 @@
+<%args>
+$country => undef,
+</%args>
+<&| comp/page.html, title=>'Country list', map=>1 &>
+<%perl>
+</%perl>
+<div class="grid_5">
+<div id="map" style="height:480px"></div>
+</div>
+<div id="detail" class="grid_7">
+<div id="content">
+<h1>The state of the Internet in <br/><span class="country"><% $country->name %></span>
+</h1>
+<div>
+    <ul class="linkbar">
+        <li>
+            share:
+            <ul class="links">
+                <li>
+                    <a href="#">embed</a>
+                </li>
+                <li>
+                    <a href="#">[f]</a>
+                </li>
+                <li>
+                    <a href="#">[t]</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            follow:
+            <ul class="links">
+                <li>
+                    <a href="#">[f]</a>
+                </li>
+                <li>
+                    <a href="#">[t]</a>
+                </li>
+                <li>
+                    <a href="#">[rss]</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            download:
+            <ul class="links">
+                <li>
+                    <a href="#">data</a>
+                </li>
+                <li>
+                    <a href="#">api</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<hr class="thick"/>
+
+<h2>Current incidents</h2>
+% my $incidents = $country->incidents->search({});
+% if($incidents->count > 0) {
+%   foreach my $incident ($incidents->all) {
+<li><% $incident->descr |h %></li>
+%   }
+% } else {
+<div class="info">No incidents reported for <% $country->name |h %></div>
+% }
+
+<hr/>
+
+<h2>Current legislation
+    <ul class="inline linkbar">
+        <li>
+        Content:
+        <ul class="links">
+            <li>
+                <a href="<% $country->id %>/edit/legislation">Edit</a>
+            </li>
+            <li>
+                <a href="<% $country->id %>/history/legislation">History</a>
+            </li>
+        </ul>
+    </ul>
+</h2>
+% my $legislation = $country->country_contents->search({id=>'LEGISLATION'});
+% if($legislation->count>0) {
+<% $legislation->content |h %>
+% } else {
+<div class="info">No legislation data for <% $country->name |h %></div>
+% }
+
+<hr/>
+
+<h2>Lobbying activity
+    <ul class="inline linkbar">
+        <li>
+        Content:
+        <ul class="links">
+            <li>
+                <a href="<% $country->id %>/edit/lobbying">Edit</a>
+            </li>
+            <li>
+                <a href="<% $country->id %>/history/lobbying">History</a>
+            </li>
+        </ul>
+    </ul>
+</h2>
+% my $lobbying = $country->country_contents->search({id=>'LOBBYING'});
+% if($lobbying->count>0) {
+<% $lobbying->content |h %>
+% } else {
+<div class="info">No lobbying data for <% $country->name |h %></div>
+% }
+</div>
+</div>
+<div class="clear">
+</div>
+<script type="text/javascript">
+    var map;
+    var pad = 1;
+    $(document).ready(function(){
+        map = new OpenLayers.Map('map');
+    	var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
+    	    key: '<% $c->config->{'CloudMade'}->{'api_key'} %>',
+    	    styleId: 48233
+    	});
+    	map.addLayer(cloudmade);
+    	map.layers[0].animationEnabled = true;
+    	var prj =  new OpenLayers.Projection("EPSG:4326");
+    	var bounds = new OpenLayers.Bounds();
+    	bounds.extend(new OpenLayers.LonLat(<% $country->bb_nw_lon %>,<% $country->bb_nw_lat %>).transform(prj,map.getProjectionObject()));
+    	bounds.extend(new OpenLayers.LonLat(<% $country->bb_se_lon %>,<% $country->bb_se_lat %>).transform(prj,map.getProjectionObject()));
+        map.zoomToExtent(bounds,false);
+    });
+</script>
+</&>
