@@ -1,0 +1,2 @@
+#!/bin/sh
+perl script/cpp_fastcgi.pl -l :4852 -n 5 -p /var/tmp/cpp_fastcgi.pid -d $@

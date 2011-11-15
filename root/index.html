@@ -1,24 +1,105 @@
 <&| /comp/page.html, title=>'Home', body=>'home' &>
 
 <div id="map" style="height:480px; "></div> 
-
+<div id="shareButtons">
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/embed.png"/></span>
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></span>
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></span>
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/RSS.png"/></span>
+</div>
 <div id ="MapPlayControls">
 
-	SHOW: <strong><a href="">TODAY</a></strong> : <a href="">LAST WEEK</a> <strong>| </strong>
+	SHOW: <strong><a href="">TODAY</a></strong> : <a href=""><span class="playcontroltext">LAST WEEK</span> </a> <strong> | </strong>
 		<span id="playbutt">
 			<img id="btPlay" src="<% $c->uri_for('/static') %>/img/playButton.png"/>
 		</span> 
-	REPLAY LAST WEEK <span id="ts"></span>
-
-
-
-
+	<span class="playcontroltext">REPLAY LAST WEEK</span>
+	<span id="ts"></span>
 </div>
+
+
 
 
 <h1>Current Incidents</h1>
 
+<div class="line"></div>
 
+<div style="width:850px;height:300px">
+
+<div style="width:400px;float:left">
+
+<ul class="incidents">
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/blackoutCelltower.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="">Cell towers blackout in Germany >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/restrictionBandwidth.png"/></span>
+  	<span><strong>Restriction</strong></span>
+  	<span class="incidentBody"><a href="">Bandwidth throttling in Belgium >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/attackServer.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="">Server Seizure in Florida >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/attackDenial.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="">Denial of Service attack in Azerbaijan >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/blackoutRadio.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="">Radio Frequency Jamming in Azerbaijan >></a></span>
+	<hr></hr>
+ </li>
+</ul>
+</div>
+
+<div style="width:320px;float:left;margin-left:100px">
+
+<ul class="incidents">
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/blackoutInternet.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="">Internet blackout in Azerbaijan >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/restrictionBandwidth.png"/></span>
+  	<span><strong>Restriction</strong></span>
+  	<span class="incidentBody"><a href="">Destination IP blocking in Syria >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/attackSitedefacement.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="">Website Defacement in Paris >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/attackDenial.png"/></span>
+  	<span><strong>Attack</strong></span>
+  	<span class="incidentBody"><a href="">Denial of Service attack in Azabaijan >></a></span>
+	<hr></hr>
+ </li>
+ <li class ="incident">
+ 	<span class="incidentIcon"><img src="<% $c->uri_for('/static') %>/img/blackoutCelltower.png"/></span>
+  	<span><strong>Blackout</strong></span>
+  	<span class="incidentBody"><a href="">Cell Towers blackout in Mongolia >></a></span>
+	<hr></hr>
+ </li>
+
+</ul>
+</div>
+
+</div>
 <script type="text/javascript">
 var map;
 var markers;

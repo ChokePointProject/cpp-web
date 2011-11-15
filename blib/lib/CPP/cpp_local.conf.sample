@@ -1,0 +1,10 @@
+name CPP
+<Model::DB>
+        schema_class CPP::Object
+	<connect_info>
+		dsn dbi:mysql:database=cpp
+		user dbuser
+		password dbpass
+		mysql_enable_utf8 1
+	</connect_info>
+</Model::DB>

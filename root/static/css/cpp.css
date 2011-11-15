@@ -47,13 +47,65 @@ font-weight: bold;
 position: absolute;
 top: 450px;
 width: 400px;
-margin-left: 10px;
-z-index: 9000;
-	
+margin-left: 1px;
+z-index: 9000;	
 }
 
 #playbutt img {
 margin-bottom:4px;	
+}
+
+.playcontroltext {
+font-size: 0.85em;
+
+}
+
+#shareButtons{
+//float:right;
+position: absolute;
+top: 450px;
+width: 400px;
+margin-left: 780px;
+z-index: 9000;	
+
+	
+}
+
+
+
+
+
+a#playbutton:hover { 	
+background: url("../img/playButton.png")no-repeat 0 0;
+}
+
+a#playbutton:active {
+background: url("../img/pauseButton.gif")no-repeat 0 0;
+	
+		
+}
+
+.incidents{
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: -1em;
+	
+}
+
+hr {
+	margin-left: -15px;
+}
+
+div.incidents ul li {
+	
+	
+	}
+
+.line {
+border-top: #000 solid 2px;	
+width:900px;
+
 }
 
 footer {
@@ -62,14 +114,17 @@ footer {
 	border-top: #000 solid 5px;
 	margin-top: 40px;
 	padding-top: 18px;
-	margin-left: 100px;
+	margin-bottom: 10px;
+	//margin-left: 100px;
 }
 
 
 #bottomnav {
 	font-weight: normal;
     float: right;
+    
     margin-right: 60px;
+    margin-bottom: 40px;
 }
 
 #bottomnav ul {
