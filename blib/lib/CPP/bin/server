@@ -1,0 +1,2 @@
+#!/bin/sh
+perl script/cpp_server.pl -p 3010 -r

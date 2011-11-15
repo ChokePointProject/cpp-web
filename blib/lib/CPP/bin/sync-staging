@@ -1,0 +1,6 @@
+#!/bin/sh
+rsync -azPC $@ \
+	--exclude .svn \
+	--exclude inc/ \
+	--exclude blib/ \
+	./ serverbeach:/opt/cpp/

@@ -1,19 +1,23 @@
 <&| /comp/page.html, title=>'Home' &>
 
 <div id="map" style="height:480px; "></div> 
-
+<div id="shareButtons">
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/embed.png"/></span>
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></span>
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></span>
+<span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/RSS.png"/></span>
+</div>
 <div id ="MapPlayControls">
 
 	SHOW: <strong><a href="">TODAY</a></strong> : <a href=""><span class="playcontroltext">LAST WEEK</span> </a> <strong> | </strong>
 		<span id="playbutt">
-			<img src="<% $c->uri_for('/static') %>/img/playButton.png"/>
+			<a id="playbutton" src=""><img src="<% $c->uri_for('/static') %>/img/playButton.png"/></a>
 		</span> 
 	<span class="playcontroltext">REPLAY LAST WEEK</span>
 
-
-
-
 </div>
+
+
 
 
 <h1>Current Incidents</h1>

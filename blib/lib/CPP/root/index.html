@@ -1,0 +1,21 @@
+<&| /comp/page.html, title=>'Home' &>
+
+<div id="map" style="height:480px"></div>
+<h1>Current Incidents</h1>
+
+
+<script type="text/javascript">
+var map;
+$(document).ready(function(){
+    map = new OpenLayers.Map('map');
+    //map.addControl(new OpenLayers.Control.LayerSwitcher());
+    var gmap = new OpenLayers.Layer.OSM(
+        "Simple OSM Map");
+    map.addLayer(gmap);
+	map.layers[0].animationEnabled = true;
+	var prj =  new OpenLayers.Projection("EPSG:4326");
+    map.setCenter(new OpenLayers.LonLat(0,15).transform(prj,map.getProjectionObject()), 1.5);
+});
+</script>
+
+</&>
