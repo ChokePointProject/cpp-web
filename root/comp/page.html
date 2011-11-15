@@ -7,6 +7,7 @@
 	my $static = $c->uri_for('/static');
 	my @nav = (
 		{ href => '/', name=>'Home', },
+		{ href => '/about/', name=>'About', },
 		{ href => '/country/', name=>'Countries', },
 		{ href => '/incident/', name=>'Incidents', },
 	);
@@ -58,7 +59,7 @@
 <div id="wrapper" class="container_12">
   <header>
   
-  <span id="subtitle">We collect and show the state of the Internet from across the world</span>
+  <span id="subtitle">EU Hackathon: Exploring mLab data to generate</br> connectivity status report per country</span>
   
   
 <div id="caption">
@@ -66,26 +67,14 @@
 	<div id="topnav">
 	
 		<ul>
-			<li><a href="#">about</a></li>
-			<li><a href="#">workshop</a></li>
-			<li><a href="#">team</a></li>
-			<li><a href="#">blog</a></li>
+			<li><a href="/about">about</a></li>
+			<li><a href="/country">countries</a></li>
+			<li><a href="http://www.chokepointproject.net">blog</a></li>
 		</ul>
 	</div>
 
 </div>
-<div id="logobar">
-	<div id="toppad">&nbsp;</div>
-	<div id="logo">
-		<img src="<% $static %>/img/logo.png"/>
-	</div><div id="topbar">
-		<ul>
-% foreach my $link (@nav) {
-			<li<% $nav_active eq $link->{href} ? ' class="current"' : ''%>><a href="<% $link->{href} %>"><% $link->{name} %></a></li>
-% }
-		</ul>
-	</div>
-</div>
+
 
 
   </header>
