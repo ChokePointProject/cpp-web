@@ -420,3 +420,39 @@ h2:hover ul.inline {
 }
 
 */
+
+a.panel {
+	padding-left: 8px;
+}
+a.open {
+    background: transparent url("../img/panel_open.png") center left no-repeat; 
+}
+a.closed {
+    background: transparent url("../img/panel_closed.png") center left no-repeat; 
+}
+
+div.panel {
+	border-top: 1px solid #f8f8f8;
+	margin:4px 4px 4px 0px;
+	padding:8px 8px 8px 16px;
+	background:#fff;
+}
+
+.phidden {
+	display:none;
+}
+
+ul.incident {
+	margin:0;
+	padding:0;
+}
+
+ul.incident li {
+	list-style: none;
+	padding:8px;
+}
+
+
+ul.incident li:nth-child(odd) {
+	background:#f8f8f8;
+}

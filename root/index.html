@@ -120,6 +120,9 @@ $(document).ready(function(){
                    new OpenLayers.Control.KeyboardDefaults()
                ]
     });
+	$(map.getControlsByClass('OpenLayers.Control.Navigation')).each(function(){
+		this.disableZoomWheel();
+	})
 	var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
 	    key: '<% $c->config->{'CloudMade'}->{'api_key'} %>',
 	    styleId: 48233

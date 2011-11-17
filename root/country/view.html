@@ -20,10 +20,10 @@ $country => undef,
                     <a href="#">embed</a>
                 </li>
                 <li>
-                    <a href="#">[f]</a>
+                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></a>
                 </li>
                 <li>
-                    <a href="#">[t]</a>
+                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></a>
                 </li>
             </ul>
         </li>
@@ -31,13 +31,13 @@ $country => undef,
             follow:
             <ul class="links">
                 <li>
-                    <a href="#">[f]</a>
+                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></a>
                 </li>
                 <li>
-                    <a href="#">[t]</a>
+                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></a>
                 </li>
                 <li>
-                    <a href="#">[rss]</a>
+                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/rss.png"/></a>
                 </li>
             </ul>
         </li>
@@ -61,17 +61,31 @@ $country => undef,
 <hr/>
 
 <h2>Connectivity Status</h2>
-Based on MLabs data
+<ul class="linkbar">
+    <li>
+        Based on MLabs data
+        <ul class="links">
+            <li>
+                <a href="http://hollow-meadow-4829.heroku.com/country_measurements.json?country_code=<% $country->id |u%>">API</a>
+            </li>
+        </ul>
+    </li>
+</ul>
 % my $incidents = $country->incidents->search({type=>15},{order_by=>'ts desc'});
 % if($incidents->count > 0) {
+<ul class="incident">
 %   foreach my $incident ($incidents->all) {
-<li><img src="<% $c->uri_for('/static') %>/img/Icon_Attack_30px.png"/>
+<li><a href="#" class="closed panel" id="<% $incident->id %>"/><img src="<% $c->uri_for('/static') %>/img/Icon_Attack_30px.png"/>
 <b><% $incident->ts ? $incident->ts->strftime('%Y-%m-%d') : '' %></b>
-<% $incident->descr |h %>
+<% $incident->descr |h %></a>
+<div id="panel_<% $incident->id %>" class="panel phidden">
+<% $incident->descr |h %> on <% $incident->ts ? $incident->ts->strftime('%Y-%m-%d') : '' %>
+</div>
 </li>
 %   }
+</ul>
 % } else {
-<div class="info">No incidents reported for <% $country->name |h %></div>
+<div class="info">No connectivity incidents reported for <% $country->name |h %></div>
 % }
 
 <hr/>
@@ -139,6 +153,9 @@ Based on MLabs data
                       new OpenLayers.Control.KeyboardDefaults()
                   ]
        });
+    	$(map.getControlsByClass('OpenLayers.Control.Navigation')).each(function(){
+    		this.disableZoomWheel();
+    	})
     	var cloudmade = new OpenLayers.Layer.CloudMade("CloudMade", {
     	    key: '<% $c->config->{'CloudMade'}->{'api_key'} %>',
     	    styleId: 48233
