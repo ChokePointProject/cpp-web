@@ -456,3 +456,12 @@ ul.incident li {
 ul.incident li:nth-child(odd) {
 	background:#f8f8f8;
 }
+
+#about {
+	margin: 80px 0px;
+	background: #fff;
+	padding: 32px;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+}
