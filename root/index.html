@@ -103,6 +103,8 @@
 <script type="text/javascript">
 var map;
 var markers;
+var img_play = '<% $c->uri_for('/static') %>/img/playButton.png';
+var img_pause = '<% $c->uri_for('/static') %>/img/pauseButton.png';
 function pause(millis) 
 {
         var date = new Date();
@@ -154,7 +156,7 @@ $(document).ready(function(){
     });
     $('#btPlay').click(function(){
         var anim = [];
-        $('#btPlay').hide();
+        $('#btPlay').attr('src',img_pause);
         $.ajax('incident_timeline',{
         	dataType: 'json',
         	success: function(data,status,xhr) {
@@ -190,7 +192,7 @@ $(document).ready(function(){
         				console.log("done");
             			$('#ts').html('');
                     	markers.display(true);
-                        $('#btPlay').show();
+			$('#btPlay').attr('src',img_play);
         				
         			}
         		}
