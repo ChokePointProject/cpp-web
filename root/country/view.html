@@ -3,6 +3,17 @@ $country => undef,
 </%args>
 <&| comp/page.html, title=>'Country list', map=>1 &>
 <%perl>
+use JSON;
+my $incidents = $country->incidents->search({type=>16},{order_by=>'ts desc',rows=>20});
+my @incident;
+foreach my $incident ($incidents->all) {
+	push @incident, {
+		lat => $incident->lat,
+		lon => $incident->lon,
+		name => $incident->descr.($incident->ts?$incident->ts->strftime(' on %B, %Y'):''),
+	};
+}
+my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts desc',rows=>20});
 </%perl>
 <div class="grid_5">
 <div id="map" style="height:480px"></div>
@@ -56,30 +67,58 @@ $country => undef,
 </div>
 <hr class="thick"/>
 
-<h2>Current incidents</h2>
-<img src="<% $c->uri_for('/static') %>/img/mockdata.png"/>
-<hr/>
-
 <h2>Connectivity Status</h2>
-<ul class="linkbar">
-    <li>
-        Based on MLabs data
-        <ul class="links">
-            <li>
-                <a href="http://hollow-meadow-4829.heroku.com/country_measurements.json?country_code=<% $country->id |u%>">API</a>
-            </li>
-        </ul>
-    </li>
-</ul>
-% my $incidents = $country->incidents->search({type=>15},{order_by=>'ts desc'});
+<span style="float:right">
+<a href="http://hollow-meadow-4829.heroku.com/country_measurements.json?country_code=<% $country->id |u%>">API</a>
+</span>
+
+<div>Based on <a href="http://www.measurementlab.net/" target="_blank">M-Lab</a> data</div>
+
 % if($incidents->count > 0) {
 <ul class="incident">
 %   foreach my $incident ($incidents->all) {
 <li><a href="#" class="closed panel" id="<% $incident->id %>"/><img src="<% $c->uri_for('/static') %>/img/Icon_Attack_30px.png"/>
-<b><% $incident->ts ? $incident->ts->strftime('%Y-%m-%d') : '' %></b>
-<% $incident->descr |h %></a>
+<span class="incident attack">
+<span class="type">Blackout</span>
+<span class="description">
+<% $incident->name |h %>
+</span>
+<span class="ts"><% $incident->ts ? $incident->ts->strftime('%b %Y') : '' %><% $incident->ts_end ? $incident->ts_end->strftime('- %b %Y') : '' %></span>
+</span>
+</a>
 <div id="panel_<% $incident->id %>" class="panel phidden">
-<% $incident->descr |h %> on <% $incident->ts ? $incident->ts->strftime('%Y-%m-%d') : '' %>
+<% $incident->descr |h %> on <% $incident->ts ? $incident->ts->strftime('%B, %Y') : '' %>
+</div>
+</li>
+%   }
+</ul>
+% } else {
+<div class="info">No connectivity incidents reported for <% $country->name |h %></div>
+% }
+
+<hr/>
+
+<h2>Transparency Data</h2>
+<span style="float:right">
+<a class="link" href="http://hollow-meadow-4829.heroku.com/user_data_requests.json?country_code=<% $country->id |u%>">API</a>
+</span>
+
+<div>Based on <a href="http://www.google.com/transparencyreport/" target="_blank">Google Transparency Report</a> data</div>
+
+% if($transparency->count > 0) {
+<ul class="incident">
+%   foreach my $incident ($transparency->all) {
+<li><a href="#" class="closed panel" id="<% $incident->id %>"/><img src="<% $c->uri_for('/static') %>/img/restrictionBandwidth.png"/>
+<span class="incident restriction">
+<span class="type">Blackout</span>
+<span class="description">
+<% $incident->name |h %>
+</span>
+<span class="ts"><% $incident->ts ? $incident->ts->strftime('%b %Y') : '' %><% $incident->ts_end ? $incident->ts_end->strftime('- %b %Y') : '' %></span>
+</span>
+</a>
+<div id="panel_<% $incident->id %>" class="panel phidden">
+<% $incident->descr |h %>
 </div>
 </li>
 %   }
@@ -144,7 +183,12 @@ $country => undef,
 </div>
 <script type="text/javascript">
     var map;
+    var size = new OpenLayers.Size(8,8);
+    var offset = new OpenLayers.Pixel(4,4);
+    var icon = new OpenLayers.Icon('<% $c->uri_for('/static') %>/img/red_Square_8px.gif',size,offset);
+	var prj =  new OpenLayers.Projection("EPSG:4326");
     var pad = 1;
+    var incidents = <% JSON->new->encode(\@incident) %>;
     $(document).ready(function(){
     	map = new OpenLayers.Map('map',{
             controls: [
@@ -167,6 +211,16 @@ $country => undef,
     	bounds.extend(new OpenLayers.LonLat(<% $country->bb_nw_lon %>,<% $country->bb_nw_lat %>).transform(prj,map.getProjectionObject()));
     	bounds.extend(new OpenLayers.LonLat(<% $country->bb_se_lon %>,<% $country->bb_se_lat %>).transform(prj,map.getProjectionObject()));
         map.zoomToExtent(bounds,false);
+        var markers = new OpenLayers.Layer.Markers( "Markers" );
+        map.addLayer(markers);
+        for(var i=0; i<incidents.length; ++i) {
+			var marker;
+			var incident = incidents[i];
+			marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon,incident.lat).transform(prj,map.getProjectionObject()),icon.clone());
+			marker.incident = incident;
+            markers.addMarker(marker); 
+		}
+
     });
 </script>
 </&>

@@ -35,24 +35,28 @@ my $strp = new DateTime::Format::Strptime(
                                 locale      => 'en_US',
                                 time_zone   => 'GMT',
                         );
+my(%suspicious);
 my $mech = WWW::Mechanize->new();
-if(0) {
-	$mech->get($URL.'/country_maps.json');
-	my $js = $mech->content();
-	print $js;
-	my $list = $json->decode($js);
-	foreach my $country_rec (@{$list}) {
-		my $id = $country_rec->{country_code};
-		my $country = $db->resultset('Country')->find($id);
-		$mech->get($URL.'country_measurements.json?country_code='.$id);
-		my $data = $json->decode($mech->content());
-		print Dumper($data);
-		foreach my $rec (@{$data}) {
-			if($rec->{suspicious}) {
+$mech->get($URL.'/country_maps.json');
+my $js = $mech->content();
+my $list = $json->decode($js);
+foreach my $country_rec (@{$list}) {
+	my $id = $country_rec->{country_code};
+	next unless $id;
+	print "Doing country=$id\n";
+	my $country = $db->resultset('Country')->find($id);
+	$mech->get($URL.'country_measurements.json?country_code='.$id);
+	my $data = $json->decode($mech->content());
+	#print Dumper($data);
+	foreach my $rec (@{$data}) {
+		if($rec->{suspicious}) {
+			++$suspicious{$id};
+			if(0) {
 				my $ts = $strp->parse_datetime($rec->{month});
 				my $incident = $db->resultset('Incident')->create({
 					'type' => '15',
 					'ts' => $ts,
+					'name' => 'Suspicious connectivity drop',
 					'descr' => 'Suspicious connectivity drop',
 					'lat' => $country_rec->{latitude},
 					'lon' => $country_rec->{longitude},
@@ -65,14 +69,26 @@ if(0) {
 	}
 }
 
+
 $mech->get($URL.'/city_maps.json');
-my $js = $mech->content();
-print $js;
-my $list = $json->decode($js);
+$js = $mech->content();
+$list = $json->decode($js);
 foreach my $city_rec (@{$list}) {
-	my $id = $city_rec->{country_code};
+	my $id = $city_rec->{country_code} || next;
+	next unless $suspicious{$id};
 	my $country = $db->resultset('Country')->find($id);
-	$mech->get($URL.'city_measurements.json?city='.$city_rec->{city});
+	if(!$country) {
+		warn "No country for $id\n";
+		next;
+	}
+	print "Doing country=$id city=".$city_rec->{city}."\n";
+	eval {
+		$mech->get($URL.'city_measurements.json?city='.$city_rec->{city});
+	};
+	if($@) {
+		warn($@);
+		next;
+	}
 	my $data = $json->decode($mech->content());
 	foreach my $rec (@{$data}) {
 		if($rec->{suspicious}) {
@@ -80,7 +96,8 @@ foreach my $city_rec (@{$list}) {
 			my $incident = $db->resultset('Incident')->create({
 				'type' => '16',
 				'ts' => $ts,
-				'descr' => 'Suspicious connectivity drop',
+				'name' => 'Suspicious connectivity drop in '.$city_rec->{name},
+				'descr' => 'Suspicious connectivity drop in '.$city_rec->{name},
 				'lat' => $city_rec->{latitude},
 				'lon' => $city_rec->{longitude},
 			});

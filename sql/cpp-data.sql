@@ -12,3 +12,5 @@ insert into incident_type values ('13','Radio Frequency jamming','restriction');
 
 insert into incident_type values ('15','Connectivity Issue','blackout');
 insert into incident_type values ('16','Connectivity Issue','blackout');
+insert into incident_type values ('17','Government takedown request','restriction');
+insert into incident_type values ('18','User takedown request','restriction');

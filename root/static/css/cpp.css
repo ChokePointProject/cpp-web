@@ -465,3 +465,27 @@ ul.incident li:nth-child(odd) {
 	-webkit-border-radius: 16px;
 	border-radius: 16px;
 }
+
+
+.incident .ts {
+	float:right;
+	color: #888;
+    text-transform: uppercase;
+    font-size: 0.8em;
+}
+
+.incident .type {
+	font-weight: bold;
+}
+
+.attack .type {
+	color: #f00;
+}
+
+.restriction .type {
+	color: #ffb500;
+}
+
+.blackout .type {
+	color: #000;
+}

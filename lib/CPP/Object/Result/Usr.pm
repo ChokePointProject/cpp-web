@@ -31,7 +31,7 @@ __PACKAGE__->table("usr");
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
   is_nullable: 1
-  locale: 'es_MX'
+  locale: 'en_US'
   set_on_create: 1
 
 =head2 last_updated
@@ -39,7 +39,7 @@ __PACKAGE__->table("usr");
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
   is_nullable: 1
-  locale: 'es_MX'
+  locale: 'en_US'
   set_on_create: 1
   set_on_update: 1
 
@@ -71,7 +71,7 @@ __PACKAGE__->add_columns(
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
-    locale => "es_MX",
+    locale => "en_US",
     set_on_create => 1,
   },
   "last_updated",
@@ -79,7 +79,7 @@ __PACKAGE__->add_columns(
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
-    locale => "es_MX",
+    locale => "en_US",
     set_on_create => 1,
     set_on_update => 1,
   },
@@ -125,8 +125,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-10-15 22:58:22
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:YvVZQUV5nX0oV5zt+9u90A
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-11-21 21:20:27
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1PMch2npYmPjd2fSY9klsw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

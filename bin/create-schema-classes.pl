@@ -30,7 +30,7 @@ sub column_info {
 		$info->{accessor} = $ref->{columns}->{uc($column_name)};
 	}
 	if($column_info->{data_type}=~m,date,i) {
-		$info->{'locale'} = 'es_MX';
+		$info->{'locale'} = 'en_US';
 		$info->{datetime_undef_if_invalid} = 1;
 	}
 	if(($column_name eq 'id') || ($info->{accessor} eq 'id')) {

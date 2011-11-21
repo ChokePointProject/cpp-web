@@ -77,10 +77,12 @@ create table incident (
     date_created datetime,
     last_updated datetime,
     ts datetime,
+    ts_end datetime,
     type varchar(16),
     source varchar(16),
     source_id varchar(64),
     usr varchar(64),
+    name varchar(255),
     descr text,
     lat real,
     lon real,
@@ -92,8 +94,8 @@ create table incident (
 create table country_incident (
 incident integer,
 country varchar(16),
-    foreign key (incident) references incident(id),
-    foreign key (country) references country(id),
+    foreign key (incident) references incident(id) on delete cascade,
+    foreign key (country) references country(id) on delete cascade,
     primary key (incident,country)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

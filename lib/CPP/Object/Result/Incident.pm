@@ -31,7 +31,7 @@ __PACKAGE__->table("incident");
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
   is_nullable: 1
-  locale: 'es_MX'
+  locale: 'en_US'
   set_on_create: 1
 
 =head2 last_updated
@@ -39,7 +39,7 @@ __PACKAGE__->table("incident");
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
   is_nullable: 1
-  locale: 'es_MX'
+  locale: 'en_US'
   set_on_create: 1
   set_on_update: 1
 
@@ -48,7 +48,14 @@ __PACKAGE__->table("incident");
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
   is_nullable: 1
-  locale: 'es_MX'
+  locale: 'en_US'
+
+=head2 ts_end
+
+  data_type: 'datetime'
+  datetime_undef_if_invalid: 1
+  is_nullable: 1
+  locale: 'en_US'
 
 =head2 type
 
@@ -75,6 +82,12 @@ __PACKAGE__->table("incident");
   is_nullable: 1
   size: 64
 
+=head2 name
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 255
+
 =head2 descr
 
   data_type: 'text'
@@ -100,7 +113,7 @@ __PACKAGE__->add_columns(
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
-    locale => "es_MX",
+    locale => "en_US",
     set_on_create => 1,
   },
   "last_updated",
@@ -108,7 +121,7 @@ __PACKAGE__->add_columns(
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
-    locale => "es_MX",
+    locale => "en_US",
     set_on_create => 1,
     set_on_update => 1,
   },
@@ -117,7 +130,14 @@ __PACKAGE__->add_columns(
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
     is_nullable => 1,
-    locale => "es_MX",
+    locale => "en_US",
+  },
+  "ts_end",
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    is_nullable => 1,
+    locale => "en_US",
   },
   "type",
   { data_type => "varchar", is_foreign_key => 1, is_nullable => 1, size => 16 },
@@ -127,6 +147,8 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 1, size => 64 },
   "usr",
   { data_type => "varchar", is_nullable => 1, size => 64 },
+  "name",
+  { data_type => "varchar", is_nullable => 1, size => 255 },
   "descr",
   { data_type => "text", is_nullable => 1 },
   "lat",
@@ -189,8 +211,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-11-09 12:17:11
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:rCBs0DFarClwvkzX5RcT0g
+# Created by DBIx::Class::Schema::Loader v0.07002 @ 2011-11-21 22:37:18
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EXiC3KmqeeEwgG3GYbNxVw
 
   __PACKAGE__->many_to_many('countries' => 'country_incidents', 'country');
   __PACKAGE__->many_to_many('regions' => 'region_incidents', 'region');
