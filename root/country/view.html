@@ -110,7 +110,7 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
 %   foreach my $incident ($transparency->all) {
 <li><a href="#" class="closed panel" id="<% $incident->id %>"/><img src="<% $c->uri_for('/static') %>/img/restrictionBandwidth.png"/>
 <span class="incident restriction">
-<span class="type">Blackout</span>
+<span class="type">Restriction</span>
 <span class="description">
 <% $incident->name |h %>
 </span>
