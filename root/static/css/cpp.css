@@ -295,6 +295,18 @@ div.country-list {
     column-gap: 10px;
 }
 
+div.country-list a.country {
+	padding-left: 10px;
+}
+
+div.country-list a.hasdata {
+	background: transparent url('../img/country_not_clicked.png') center left no-repeat;
+}
+
+div.country-list a.hasdata:visited {
+	background: transparent url('../img/country_clicked.png') center left no-repeat;
+}
+
 #map {
     background-color: #B0CDD5;
 }

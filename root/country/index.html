@@ -1,9 +1,10 @@
 <&| comp/page.html, title=>'Country list' &>
 <%perl>
-my($COUNTRY,$LETTER);
+my($COUNTRY,$LETTER,$HASDATA);
 foreach my $country ($c->model('DB::Country')->all) {
 	my($id,$name)=($country->id,$country->name);
 	$COUNTRY->{$id} = $name;
+	$HASDATA->{$id} = $country->incidents->count > 0;
 	push @{$LETTER->{lc(substr($name,0,1))}}, $id;
 }
 </%perl>
@@ -35,7 +36,7 @@ foreach my $country ($c->model('DB::Country')->all) {
 </div>
 <div class="country-list grid_11">
 % foreach my $code (sort {$COUNTRY->{$a} cmp $COUNTRY->{$b}} @{$LETTER->{$letter}||[]}) {
-<a href="<% $code |u%>"><% $COUNTRY->{$code} %></a><br/>
+<a href="<% $code |u%>" class="country<% $HASDATA->{$code}?' hasdata':'' %>"><% $COUNTRY->{$code} %></a><br/>
 % }
 </div>
 <div class="clear"></div>
