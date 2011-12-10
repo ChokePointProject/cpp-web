@@ -17,7 +17,7 @@
 	<span id="ts"></span>
 </div>
 
-
+<div id="homecountry" style="display:none">What's the state of the Internet in <a href="#" id="homecountry-link"><span id="homecountry-name"></span></a>?</div>
 
 
 <h1>Current Incidents</h1>
@@ -138,6 +138,12 @@ $(document).ready(function(){
     var offset = new OpenLayers.Pixel(4,4);
     var icon = new OpenLayers.Icon('<% $c->uri_for('/static') %>/img/red_Square_8px.gif',size,offset);
     //var markerArray = new Array();
+    $.getScript('http://j.maxmind.com/app/country.js',function(){
+    	var code = geoip_country_code();
+    	$('#homecountry-link').attr('href','/country/'+code.toUpperCase());
+    	$('#homecountry-name').html(geoip_country_name());
+    	$('#homecountry').show();
+    });
     $.ajax('incidents',{
     	dataType: 'json',
     	success: function(data,status,xhr) {
