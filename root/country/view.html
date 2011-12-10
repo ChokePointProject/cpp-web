@@ -60,7 +60,7 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
 <a href="http://hollow-meadow-4829.heroku.com/country_measurements.json?country_code=<% $country->id |u%>">API</a>
 </span>
 
-<div>Based on <a href="http://www.measurementlab.net/" target="_blank">M-Lab</a> data</div>
+<div>Based on <a href="http://www.measurementlab.net/" class="data-source" target="_blank">M-Lab</a> data</div>
 
 % if($incidents->count > 0) {
 <ul class="incident">
@@ -93,7 +93,7 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
 <a class="link" href="http://hollow-meadow-4829.heroku.com/user_data_requests.json?country_code=<% $country->id |u%>">API</a>
 </span>
 
-<div>Based on <a href="http://www.google.com/transparencyreport/" target="_blank">Google Transparency Report</a> data</div>
+<div>Based on <a href="http://www.google.com/transparencyreport/" class="data-source" target="_blank">Google Transparency Report</a> data</div>
 
 % if($transparency->count > 0) {
 <ul class="incident">

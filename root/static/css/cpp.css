@@ -7,8 +7,8 @@ body {
 }
 
 body.home {
-    background: #B1CED6 url("../img/bg.gif") top left repeat-x; 
-    
+    background: #B1CED6 url("../img/bg.gif") top left repeat-x;
+
 }
 
 
@@ -36,7 +36,7 @@ header {
 }
 
 #subtitle {
-font-size:1.2em;	
+font-size:1.2em;
 background:#fff;
 float: left;
 //margin-top:10px;
@@ -54,11 +54,11 @@ position: absolute;
 top: 450px;
 width: 400px;
 margin-left: 1px;
-z-index: 9000;	
+z-index: 9000;
 }
 
 #playbutt img {
-margin-bottom:4px;	
+margin-bottom:4px;
 }
 
 .playcontroltext {
@@ -72,23 +72,23 @@ position: absolute;
 top: 450px;
 width: 400px;
 margin-left: 780px;
-z-index: 9000;	
+z-index: 9000;
 
-	
+
 }
 
 
 
 
 
-a#playbutton:hover { 	
+a#playbutton:hover {
 background: url("../img/playButton.png")no-repeat 0 0;
 }
 
 a#playbutton:active {
 background: url("../img/pauseButton.gif")no-repeat 0 0;
-	
-		
+
+
 }
 
 .incidents{
@@ -96,7 +96,7 @@ background: url("../img/pauseButton.gif")no-repeat 0 0;
 	margin-left: 0;
 	padding-left: 1em;
 	text-indent: -1em;
-	
+
 }
 
 hr {
@@ -104,12 +104,12 @@ hr {
 }
 
 div.incidents ul li {
-	
-	
+
+
 	}
 
 .line {
-border-top: #000 solid 2px;	
+border-top: #000 solid 2px;
 width:900px;
 
 }
@@ -128,7 +128,7 @@ footer {
 #bottomnav {
 	font-weight: normal;
     float: right;
-    
+
     margin-right: 60px;
     margin-bottom: 40px;
 }
@@ -298,13 +298,16 @@ div.country-list {
 div.country-list a.country {
 	padding-left: 10px;
 }
-
-div.country-list a.hasdata {
+div.country-list a.hasdata:link {
 	background: transparent url('../img/country_not_clicked.png') center left no-repeat;
 }
 
 div.country-list a.hasdata:visited {
+	/*
+	 * Please note that background-image *will* be ignored: http://hacks.mozilla.org/2010/03/privacy-related-changes-coming-to-css-vistited/
+	 */
 	background: transparent url('../img/country_clicked.png') center left no-repeat;
+	color: #666;
 }
 
 #map {
@@ -437,10 +440,10 @@ a.panel {
 	padding-left: 8px;
 }
 a.open {
-    background: transparent url("../img/panel_open.png") center left no-repeat; 
+    background: transparent url("../img/panel_open.png") center left no-repeat;
 }
 a.closed {
-    background: transparent url("../img/panel_closed.png") center left no-repeat; 
+    background: transparent url("../img/panel_closed.png") center left no-repeat;
 }
 
 div.panel {
@@ -500,4 +503,8 @@ ul.incident li:nth-child(odd) {
 
 .blackout .type {
 	color: #000;
+}
+
+a.data-source {
+	text-decoration: underline;
 }
