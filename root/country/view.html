@@ -27,14 +27,13 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
         <li>
             share:
             <ul class="links">
-                <li>
-                    <a href="#">embed</a>
-                </li>
+            	<!--
                 <li>
                     <a href="#"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></a>
                 </li>
+                -->
                 <li>
-                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></a>
+                    <a href="https://twitter.com/share?url=http%3A%2F%2Feuhackathon.chokepointproject.net%2F" target="_blank"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></a>
                 </li>
             </ul>
         </li>
@@ -42,32 +41,21 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
             follow:
             <ul class="links">
                 <li>
-                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></a>
+                    <a href="http://www.facebook.com/ChokePointProject"><img src="<% $c->uri_for('/static') %>/img/FB.png" target="_blank"/></a>
                 </li>
                 <li>
-                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/twitter.png"/></a>
+                    <a href="https://twitter.com/#!/ChokePointP"><img src="<% $c->uri_for('/static') %>/img/twitter.png" target="_blank"/></a>
                 </li>
                 <li>
-                    <a href="#"><img src="<% $c->uri_for('/static') %>/img/rss.png"/></a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            download:
-            <ul class="links">
-                <li>
-                    <a href="#">data</a>
-                </li>
-                <li>
-                    <a href="#">api</a>
+                    <a href="/feed/rss"><img src="<% $c->uri_for('/static') %>/img/rss.png" target="_blank"/></a>
                 </li>
             </ul>
         </li>
     </ul>
 </div>
 <hr class="thick"/>
-
-<h2>Connectivity Status</h2>
+<h2><a href="#" class="closed panel" id="connectivity">Connectivity Status</a></h2>
+<div id="panel_connectivity" class="phidden">
 <span style="float:right">
 <a href="http://hollow-meadow-4829.heroku.com/country_measurements.json?country_code=<% $country->id |u%>">API</a>
 </span>
@@ -95,10 +83,12 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
 % } else {
 <div class="info">No connectivity incidents reported for <% $country->name |h %></div>
 % }
+</div>
 
 <hr/>
 
-<h2>Transparency Data</h2>
+<h2><a href="#" class="open panel" id="transparency">Transparency Data</a></h2>
+<div id="panel_transparency" class="">
 <span style="float:right">
 <a class="link" href="http://hollow-meadow-4829.heroku.com/user_data_requests.json?country_code=<% $country->id |u%>">API</a>
 </span>
@@ -126,15 +116,18 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
 % } else {
 <div class="info">No censorship or user data disclosure incidents reported for <% $country->name |h %></div>
 % }
+</div>
 
 <hr/>
 
-<h2>Currently Functioning Circumvention</h2>
+<h2><a href="#" class="closed panel" id="circumvention">Currently Functioning Circumvention</a></h2>
+<div id="panel_circumvention" class="phidden">
 <strong>TOR VPN DNS PROXY</strong>
+</div>
 
 <hr/>
 
-<h2>Current legislation
+<h2><a href="#" class="closed panel" id="legislation">Current legislation</a>
     <ul class="inline linkbar">
         <li>
         Content:
@@ -148,16 +141,18 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
         </ul>
     </ul>
 </h2>
+<div id="panel_legislation" class="phidden">
 % my $legislation = $country->country_contents->search({id=>'LEGISLATION'});
 % if($legislation->count>0) {
 <% $legislation->content |h %>
 % } else {
 <div class="info">No legislation data for <% $country->name |h %></div>
 % }
+</div>
 
 <hr/>
 
-<h2>Lobbying activity
+<h2><a href="#" class="closed panel" id="lobbying">Lobbying activity</a>
     <ul class="inline linkbar">
         <li>
         Content:
@@ -171,12 +166,15 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
         </ul>
     </ul>
 </h2>
+<div id="panel_lobbying" class="phidden">
 % my $lobbying = $country->country_contents->search({id=>'LOBBYING'});
 % if($lobbying->count>0) {
 <% $lobbying->content |h %>
 % } else {
 <div class="info">No lobbying data for <% $country->name |h %></div>
 % }
+</div>
+
 </div>
 </div>
 <div class="clear">
@@ -193,8 +191,7 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
     	map = new OpenLayers.Map('map',{
             controls: [
                       new OpenLayers.Control.Navigation(),
-                      new OpenLayers.Control.ZoomPanel(),
-                      new OpenLayers.Control.KeyboardDefaults()
+                      new OpenLayers.Control.ZoomPanel()
                   ]
        });
     	$(map.getControlsByClass('OpenLayers.Control.Navigation')).each(function(){
@@ -218,7 +215,7 @@ my $transparency = $country->incidents->search({type=>[17,18]},{order_by=>'ts de
 			var incident = incidents[i];
 			marker = new OpenLayers.Marker(new OpenLayers.LonLat(incident.lon,incident.lat).transform(prj,map.getProjectionObject()),icon.clone());
 			marker.incident = incident;
-            markers.addMarker(marker); 
+            markers.addMarker(marker);
 		}
 
     });

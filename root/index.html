@@ -1,6 +1,6 @@
 <&| /comp/page.html, title=>'Home', body=>'home' &>
 
-<div id="map" style="height:480px; "></div> 
+<div id="map" style="height:480px; "></div>
 <div id="shareButtons">
 <span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/embed.png"/></span>
 <span class="buttonBG"><img src="<% $c->uri_for('/static') %>/img/FB.png"/></span>
@@ -12,7 +12,7 @@
 	SHOW: <strong><a href="">TODAY</a></strong> : <a href=""><span class="playcontroltext">LAST WEEK</span> </a> <strong> | </strong>
 		<span id="playbutt">
 			<img id="btPlay" src="<% $c->uri_for('/static') %>/img/playButton.png"/>
-		</span> 
+		</span>
 	<span class="playcontroltext">REPLAY LAST WEEK</span>
 	<span id="ts"></span>
 </div>
@@ -105,12 +105,12 @@ var map;
 var markers;
 var img_play = '<% $c->uri_for('/static') %>/img/playButton.png';
 var img_pause = '<% $c->uri_for('/static') %>/img/pauseButton.png';
-function pause(millis) 
+function pause(millis)
 {
         var date = new Date();
         var curDate = null;
- 
-        do { curDate = new Date(); } 
+
+        do { curDate = new Date(); }
         while(curDate-date < millis)
 }
 
@@ -118,8 +118,7 @@ $(document).ready(function(){
 	map = new OpenLayers.Map('map',{
          controls: [
                    new OpenLayers.Control.Navigation(),
-                   new OpenLayers.Control.ZoomPanel(),
-                   new OpenLayers.Control.KeyboardDefaults()
+                   new OpenLayers.Control.ZoomPanel()
                ]
     });
 	$(map.getControlsByClass('OpenLayers.Control.Navigation')).each(function(){
@@ -150,7 +149,7 @@ $(document).ready(function(){
                 marker.events.register('mousedown', marker, function(evt) { document.location='/country/'+this.incident.country; OpenLayers.Event.stop(evt); });
                 //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });
                 //markerArray[i] = marker;
-                markers.addMarker(marker); 
+                markers.addMarker(marker);
     		}
     	}
     });
@@ -193,7 +192,7 @@ $(document).ready(function(){
             			$('#ts').html('');
                     	markers.display(true);
 			$('#btPlay').attr('src',img_play);
-        				
+
         			}
         		}
         		setTimeout(animate,500);
