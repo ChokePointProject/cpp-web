@@ -508,3 +508,11 @@ ul.incident li:nth-child(odd) {
 a.data-source {
 	text-decoration: underline;
 }
+
+#homecountry {
+	margin-top: 5px;
+}
+
+#homecountry a {
+	text-decoration: underline;
+}
