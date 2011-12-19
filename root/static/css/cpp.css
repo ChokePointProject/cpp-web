@@ -514,6 +514,14 @@ a.data-source {
 	text-decoration: underline;
 }
 
+#homecountry {
+	margin-top: 5px;
+}
+
+#homecountry a {
+	text-decoration: underline;
+}
+
 .source-note {
 	margin: 15px 0 0 0;
 }
