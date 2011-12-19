@@ -111,6 +111,7 @@ div.incidents ul li {
 .line {
 border-top: #000 solid 2px;
 width:900px;
+clear:both;
 
 }
 
@@ -273,7 +274,7 @@ footer {
 }
 
 #content {
-    margin-top: 190px;
+    margin-top: 40px;
 }
 
 h2.initial {
@@ -319,6 +320,10 @@ h1 {
     font-size: 18px;
 	font-weight: normal;
     text-transform: uppercase;
+}
+
+h1.float {
+	float:left;
 }
 
 h1 span.country {
@@ -507,4 +512,8 @@ ul.incident li:nth-child(odd) {
 
 a.data-source {
 	text-decoration: underline;
+}
+
+.source-note {
+	margin: 15px 0 0 0;
 }
